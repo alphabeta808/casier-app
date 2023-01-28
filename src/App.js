@@ -1,34 +1,34 @@
-// import Navigation from "./components/Navigation";
+import React from 'react';
 import './index.css';
+import Navigation from './components/navigations/Navigation';
+import Header from './components/header/Header';
+import Route from './routes/Route';
+
 
 function App() {
   return (
-    <div className="dashboard text-white flex h-screen">
-      <div className="aside side-bar w-1/5 bg-orange-500">
-        <div className="border-b-2 border-slate-700 pb-5">
-          <h1 className='px-5 pt-5 text-xl'>Dashboard</h1>
+    <div className="dashboard text-white flex h-screen bg-[#d7e0d9] tracking-widest">
+      {/* Side Bar */}
+      <div className="aside side-bar w-1/6 bg-[#175c15c7]">
+        <div className="border-b-2 border-slate-700 py-3 pl-5">
+          <h1 className='text-xl font-bold'>Dashboard</h1>
+          <h1 className='ml-5 text-xl font-bold'>Toko Alfan</h1>
         </div>
-        <ul className="menu flex flex-col">
-          <li><a href="#">Barang</a></li>
-          <li><a href="#">Penjualan</a></li>
-          <li><a href="#">Pembelian</a></li>
-          <li><a href="#">Supplier</a></li>
-          <li><a href="#">Laporan Penjualan</a></li>
-          <li><a href="#">Laporan Pembelian</a></li>
-        </ul>
-      </div>
-      <div className="aside w-4/5 bg-green-500">
-        <div className="header flex justify-between px-5 pt-5 border-b-2 border-slate-700 pb-5">
-          <h1>Toko Alfan</h1>
-          <nav>
-            <ul className="flex">
-              <li className='px-5'><a href="#">Users</a></li>
-              <li><a href="#">Settings</a></li>
-            </ul>
-          </nav>
-        </div>
-      </div>
 
+        {/* Navigation */}
+        <Navigation />
+
+      </div>
+      <div className='content w-5/6'>
+        {/* Header */}
+        <Header />
+
+        {/* Main Content */}
+        
+        <Route />
+
+
+      </div>
     </div>
   );
 }
