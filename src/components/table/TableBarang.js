@@ -1,21 +1,23 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
+import { PropTypes } from 'prop-types';
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableSortLabel,
+  Typography,
+  Paper
+} from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import axios from 'axios'
+import axios from 'axios';
 
-import SearchField from '../search-field/SearchField';
-import Edit from '../button/Edit'
+import SearchField from '../search-field/SearchField.js';
+import Edit from '../button/Edit.js'
 
 function createData(itemCode, itemName, buyPrice, sellPrice, itemStok) {
   return {
@@ -177,8 +179,6 @@ export default function TableBarang() {
     const response = await axios.get('http://localhost:5000/items');
     setItems(response.data);
   }
-
-
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

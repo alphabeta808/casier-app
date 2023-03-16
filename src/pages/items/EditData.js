@@ -1,10 +1,8 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import { TextField } from '@mui/material';
-import Add from '../../components/button/Add';
-import Update from '../../components/button/Update';
-import Delete from '../../components/button/Delete';
+import { Box, Container, TextField } from '@mui/material';
+import Add from '../../components/button/Add.js';
+import Update from '../../components/button/Update.js';
+import Delete from '../../components/button/Delete.js';
 
 const EditData = () => {
     return (

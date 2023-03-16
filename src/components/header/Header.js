@@ -1,5 +1,5 @@
 import React from 'react'
-import MyComponent from '../time/DateNow';
+import MyComponent from '../time/DateNow.js';
 
 
 const Header = () => {

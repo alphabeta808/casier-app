@@ -1,9 +1,6 @@
 import * as React from 'react'
-import { Button } from '@mui/material';
+import { Button, Box, Link } from '@mui/material';
 import UpdateIcon from '@mui/icons-material/Update';
-import { Box } from '@mui/material';
-import { Link } from '@mui/material';
-
 
 const Update = () => {
     return (

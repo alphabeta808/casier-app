@@ -1,8 +1,8 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import TableBarang from '../components/table/TableBarang';
-import ErrorHandler from '../handlers/error/ErrorHandler';
-import EditData from '../pages/items/EditData';
+import TableBarang from '../components/table/TableBarang.js';
+import ErrorHandler from '../handlers/error/ErrorHandler.js';
+import EditData from '../pages/items/EditData.js';
 
 
 const router = createBrowserRouter([

@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const db = require('../configuration/database/Index');
+const db = require('../configuration/index');
 
 const Items = db.define('items', {
     id: {

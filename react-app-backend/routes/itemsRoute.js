@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const handler = require('../../handlers/items/Handler');
+const handler = require('../handler');
 
 app.get('/items/getAll', handler.getAllItemsHandler);
 app.get('/items/:id', handler.getItemByIdHandler);

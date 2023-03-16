@@ -1,8 +1,6 @@
 import React from 'react';
-import { Button } from '@mui/material';
+import { Button, Box, Link } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box } from '@mui/material';
-import { Link } from '@mui/material';
 
 const Delete = () => {
     return (
