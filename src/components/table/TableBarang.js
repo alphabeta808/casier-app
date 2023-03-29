@@ -9,73 +9,22 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel,
   Typography,
   Paper
 } from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
-import axios from 'axios';
+// import axios from 'axios';
 
 import SearchField from '../search-field/SearchField.js';
 import Edit from '../button/Edit.js'
 
-function createData(itemCode, itemName, buyPrice, sellPrice, itemStok) {
-  return {
-    itemCode,
-    itemName,
-    buyPrice,
-    sellPrice,
-    itemStok,
-  };
-}
-
-const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
-];
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
 
 const headCells = [
+  {
+    id: 'id',
+    numeric: false,
+    disablePadding: true,
+    label: 'ID',
+  },
   {
     id: 'itemCode',
     numeric: false,
@@ -121,12 +70,6 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } =
-    props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
-
   return (
     <TableHead>
       <TableRow>
@@ -135,20 +78,8 @@ function EnhancedTableHead(props) {
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+            {headCell.label}
           </TableCell>
         ))}
       </TableRow>
@@ -164,34 +95,32 @@ EnhancedTableHead.propTypes = {
 };
 
 export default function TableBarang() {
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('itemName');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [items, setItems] = React.useState([]);
 
-  React.useEffect(() => {
-    getItems();
-  }, []);
+  const listItems = async () => {
+    try {
+      const items = await fetch('http://localhost:5000/items/getAll');
+      const data = await items.json();
 
-  const getItems = async () => {
-    const response = await axios.get('http://localhost:5000/items');
-    setItems(response.data);
+      setItems(data);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+  React.useEffect(() => {
+    listItems();
+  }, []);
 
-  const handleClick = (event, itemCode) => {
-    const selectedIndex = selected.indexOf(itemCode);
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, itemCode);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -215,11 +144,11 @@ export default function TableBarang() {
     setPage(0);
   };
 
-  const isSelected = (itemCode) => selected.indexOf(itemCode) !== -1;
+  const isSelected = (id) => selected.indexOf(id) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - items.length) : 0;
 
 
   return (
@@ -232,7 +161,7 @@ export default function TableBarang() {
           <Edit></Edit>
         </div>
       </div>
-      <Paper sx={{ width: '95%', px: 2 }}>
+      <Paper sx={{ width: '100%', px: 2 }}>
         <Typography
           sx={{ flex: '1 1 100%', py: 2 }}
           variant="h6"
@@ -249,45 +178,45 @@ export default function TableBarang() {
           >
             <EnhancedTableHead
               numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={items.length}
             />
             <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.sort(getComparator(order, orderBy)).slice() */}
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.itemCode);
-                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.itemCode)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.itemCode}
-                      selected={isItemSelected}
-                    >
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
+              {
+                items.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const isItemSelected = isSelected(row.id);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+                    return (
+
+                      <TableRow
+                        hover
+                        onClick={(event) => handleClick(event, row.id)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.id}
+                        selected={isItemSelected}
                       >
-                        {row.itemCode}
-                      </TableCell>
-                      <TableCell align="right">{row.itemName}</TableCell>
-                      <TableCell align="right">{row.buyPrice}</TableCell>
-                      <TableCell align="right">{row.sellPrice}</TableCell>
-                      <TableCell align="right">{row.itemStok}</TableCell>
-                    </TableRow>
-                  );
-                })}
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                        >
+                          {row.id}
+                        </TableCell>
+                        <TableCell align="right">{row.itemcode}</TableCell>
+                        <TableCell align="right">{row.itemname}</TableCell>
+                        <TableCell align="right">{row.buyprice}</TableCell>
+                        <TableCell align="right">{row.sellprice}</TableCell>
+                        <TableCell align="right">{row.itemstok}</TableCell>
+                        <TableCell align="right">{row.sellername}</TableCell>
+                        <TableCell align="right">{row.expireddate}</TableCell>
+                      </TableRow>
+                    );
+                  })
+              }
               {emptyRows > 0 && (
                 <TableRow
                   style={{
@@ -303,7 +232,7 @@ export default function TableBarang() {
         <TablePagination
           rowsPerPageOptions={[5, 8]}
           component="div"
-          count={rows.length}
+          count={items.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

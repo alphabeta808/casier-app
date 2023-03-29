@@ -2,24 +2,25 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
-const Port = 3000;
+const Port = 5000;
+const itemRoute = require('./routes/itemsRoute');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use(cors());
+// middleware
+// app.use(cors({credentials: true, origin: 'http://localhost:3000'}))
+app.use(cors({credentials : true}));
 app.use(express.json());
 
-
-const itemRoute = require('./routes/itemsRoute');
-app.use('/', itemRoute);
-
-app.get('/', (req, res) => {
-    res.json({ info: 'Node.js, Express, and Postgres API' })
-});
+app.use('/items', itemRoute);
 
 app.listen(Port, () => {
-    console.log(`server running at ${Port}`);
+console.log(`server running at ${Port}`);
 });
+
+// app.get('/', (req, res) => {
+//     res.json({ info: 'Node.js, Express, and Postgres API' })
+// });
