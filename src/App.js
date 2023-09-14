@@ -1,8 +1,8 @@
 import React from "react";
 import "./index.css";
-import Navigation from "./components/Navigations/Navigation.js";
-import Header from "./components/header/Header.js";
-import Route from "./routes/Index.js";
+import Navigation from "./Components/Navigations/Navigation.js";
+import Header from "./Components/Header/Header.js";
+import Route from "./Routes/Index.js";
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import TableBarang from "../components/Table/TableBarang.js";
+import TableBarang from "../Components/Table/TableBarang.js";
 import ErrorHandler from "../Handlers/Error/ErrorHandler.js";
 import EditData from "../Data/InventoryData/EditData.js";
 
