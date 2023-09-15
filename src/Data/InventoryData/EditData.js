@@ -25,6 +25,8 @@ const EditData = () => {
 
   const iCodePattern = new RegExp("^[\bK]");
 
+  console.log(data)
+
   const AddData = async () => {
     if (!data.itemCode) {
       setError(true);
