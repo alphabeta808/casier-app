@@ -16,17 +16,27 @@ const INITIAL_STATE = {
 };
 
 const EditData = () => {
-  const [data, setData] = useState({INITIAL_STATE});
-  const [resData, setResData] = useState({});
-  // const [error, setError] = useState(false)
+  const [data, setData] = useState({ INITIAL_STATE });
+  const [error, setError] = useState(false);
 
   const handleInput = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  console.log(data)
+  const iCodePattern = new RegExp("^[\bK]");
 
   const AddData = async () => {
+    if (!data.itemCode) {
+      setError(true);
+      return alert(
+        `Item Code field cannot be empty & min length is five character`
+      );
+    }
+    if (data.itemCode !== iCodePattern) {
+      setError(true)
+      return alert('Item Code must begin with "K" character');
+    }
+
     try {
       await axios
         .post("http://localhost:5000/item/add", {
@@ -38,9 +48,12 @@ const EditData = () => {
           sellerName: data.sellerName,
           expiredDate: data.expiredDate,
         })
-        .then((res) => setResData(res))
+        .then(
+          alert(
+            `Insert new items with item code : ${data.itemCode} & item name ${data.itemName} success`
+          )
+        )
         .then(setData(INITIAL_STATE));
-      console.log({ resData });
     } catch (error) {
       console.error(error);
     }
@@ -67,7 +80,7 @@ const EditData = () => {
               id="filled-basic"
               label="Item Code"
               variant="filled"
-              sx={{ bgcolor: "#cfe8fc" }}
+              sx={{ bgcolor: error ? "#fc2403" : "#cfe8fc" }}
               name="itemCode"
               value={data.itemCode}
               onChange={(e) => handleInput(e)}
@@ -76,7 +89,7 @@ const EditData = () => {
               id="filled-basic"
               label="Item Name"
               variant="filled"
-              sx={{ bgcolor: "#cfe8fc" }}
+              sx={{ bgcolor: error ? "#fc2403" : "#cfe8fc" }}
               name="itemName"
               value={data.itemName}
               onChange={(e) => handleInput(e)}
@@ -85,7 +98,7 @@ const EditData = () => {
               id="filled-basic"
               label="Buy Price"
               variant="filled"
-              sx={{ bgcolor: "#cfe8fc" }}
+              sx={{ bgcolor: error ? "#fc2403" : "#cfe8fc" }}
               name="buyPrice"
               value={data.buyPrice}
               onChange={(e) => handleInput(e)}
@@ -94,7 +107,7 @@ const EditData = () => {
               id="filled-basic"
               label="Sell Price"
               variant="filled"
-              sx={{ bgcolor: "#cfe8fc" }}
+              sx={{ bgcolor: error ? "#fc2403" : "#cfe8fc" }}
               name="sellPrice"
               value={data.sellPrice}
               onChange={(e) => handleInput(e)}
@@ -103,7 +116,7 @@ const EditData = () => {
               id="filled-basic"
               label="Item Stok"
               variant="filled"
-              sx={{ bgcolor: "#cfe8fc" }}
+              sx={{ bgcolor: error ? "#fc2403" : "#cfe8fc" }}
               name="itemStok"
               value={data.itemStok}
               onChange={(e) => handleInput(e)}
@@ -112,7 +125,7 @@ const EditData = () => {
               id="filled-basic"
               label="Seller Name"
               variant="filled"
-              sx={{ bgcolor: "#cfe8fc" }}
+              sx={{ bgcolor: error ? "#fc2403" : "#cfe8fc" }}
               name="sellerName"
               value={data.sellerName}
               onChange={(e) => handleInput(e)}
@@ -121,7 +134,7 @@ const EditData = () => {
               id="filled-basic"
               label="Expired Date"
               variant="filled"
-              sx={{ bgcolor: "#cfe8fc" }}
+              sx={{ bgcolor: error ? "#fc2403" : "#cfe8fc" }}
               name="expiredDate"
               value={data.expiredDate}
               onChange={(e) => handleInput(e)}

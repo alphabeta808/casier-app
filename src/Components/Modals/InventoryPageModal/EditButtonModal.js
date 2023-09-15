@@ -29,7 +29,7 @@ export default function EditButtonModal() {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <Button onClick={handleOpen} startIcon={<Edit />}>
         Edit
       </Button>
@@ -43,6 +43,6 @@ export default function EditButtonModal() {
           <EditData />
         </Box>
       </Modal>
-    </div>
+    </React.Fragment>
   );
 }
