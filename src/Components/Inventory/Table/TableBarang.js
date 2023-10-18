@@ -14,15 +14,9 @@ import {
   TextField,
 } from "@mui/material";
 import axios from "axios";
-import EditButtonModal from "../Modals/InventoryPageModal/EditButtonModal";
+import EditButtonModal from "../Modals/Edit";
 
 const headCells = [
-  {
-    id: "id",
-    numeric: false,
-    disablePadding: true,
-    label: "ID",
-  },
   {
     id: "itemCode",
     numeric: false,
@@ -74,7 +68,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align={headCell.numeric ? "center" : "center"}
             padding={headCell.disablePadding ? "none" : "normal"}
           >
             {headCell.label}
@@ -145,13 +139,12 @@ export default function TableBarang() {
 
   return (
     <Box
-      sx={{ width: "95%", mt: 2, ml: 4 }}
+      sx={{ width: "100%", mt: 4, ml: 4 }}
       display="flex"
       flexDirection="column"
       alignContent="center"
     >
       <Box sx={{ mb: 2 }} display="flex" justifyContent="justify-start">
-        {/* Search Field Component */}
         <Box sx={{ mt:2, mr:2 }}>
           <TextField
             id="standard-search"
@@ -160,7 +153,6 @@ export default function TableBarang() {
             variant="standard"
           />
         </Box>
-        {/* Edit & Delete Button */}
         <Box sx={{mt:5}} display="flex">
           <EditButtonModal />
         </Box>
@@ -189,7 +181,6 @@ export default function TableBarang() {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
                   return (
                     <TableRow
                       hover
@@ -200,21 +191,13 @@ export default function TableBarang() {
                       key={row.id}
                       selected={isItemSelected}
                     >
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.id}
-                      </TableCell>
-                      <TableCell align="right">{row.itemcode}</TableCell>
-                      <TableCell align="right">{row.itemname}</TableCell>
-                      <TableCell align="right">{row.buyprice}</TableCell>
-                      <TableCell align="right">{row.sellprice}</TableCell>
-                      <TableCell align="right">{row.itemstok}</TableCell>
-                      <TableCell align="right">{row.sellername}</TableCell>
-                      <TableCell align="right">{row.expireddate}</TableCell>
+                      <TableCell align="center">{row.itemcode}</TableCell>
+                      <TableCell align="center">{row.itemname}</TableCell>
+                      <TableCell align="center">{row.buyprice}</TableCell>
+                      <TableCell align="center">{row.sellprice}</TableCell>
+                      <TableCell align="center">{row.itemstok}</TableCell>
+                      <TableCell align="center">{row.sellername}</TableCell>
+                      <TableCell align="center">{row.expireddate}</TableCell>
                     </TableRow>
                   );
                 })}

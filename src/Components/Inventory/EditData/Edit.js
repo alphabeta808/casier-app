@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Box, Container, TextField, Button } from "@mui/material";
+// import { OnChangeInputValidation, OnAddItemValidation } from "../../Validation/Inventory/InputValidation";
 import AddIcon from "@mui/icons-material/Add";
 import UpdateIcon from "@mui/icons-material/Update";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -17,27 +18,16 @@ const INITIAL_STATE = {
 
 const EditData = () => {
   const [data, setData] = useState({ INITIAL_STATE });
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(false); 
 
   const handleInput = (e) => {
+    // add validation for change data handler here
+
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const iCodePattern = new RegExp("^[\bK]");
-
-  console.log(data)
-
   const AddData = async () => {
-    if (!data.itemCode) {
-      setError(true);
-      return alert(
-        `Item Code field cannot be empty & min length is five character`
-      );
-    }
-    if (data.itemCode !== iCodePattern) {
-      setError(true)
-      return alert('Item Code must begin with "K" character');
-    }
+    // add validation for submit data here
 
     try {
       await axios
